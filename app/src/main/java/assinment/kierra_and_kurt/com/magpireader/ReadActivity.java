@@ -29,7 +29,7 @@ public class ReadActivity extends AppCompatActivity {
             public void onInit(int i) {
                 Log.i("TTS", "Start initalization i = " + i);
                 if(i == TextToSpeech.SUCCESS){
-                    Log.i("TTS", "Success, i = " + i);
+                    Log.i("TTS", "Success");
                     int result = tts.setLanguage(Locale.US);
 
                     if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
@@ -55,10 +55,11 @@ public class ReadActivity extends AppCompatActivity {
 
     }// end onCreate
 
-    private void ToSpeech(){
+    private void ToSpeech(){ // talks here
         Log.i("TTS", "Talking");
         EditText editText = findViewById(R.id.read_this_text);
         String to_read = editText.getText().toString().trim();
+
         if(to_read.equals(null) || to_read.equals("")){
             Log.i("TTS", "No Text");
             //to_read = "No Text Given";
@@ -67,19 +68,20 @@ public class ReadActivity extends AppCompatActivity {
             Log.i("TTS", "Has Text");
             tts.speak(to_read, TextToSpeech.QUEUE_FLUSH, null);
         }// end if
+
     }// end ToSpeech
 
+
     @Override
-    protected void onDestroy() {
+    protected void onPause() { // stops talking once paused
         if(tts != null){
-            Log.i("TTS", "Destroing");
+            Log.i("TTS", "Pausing");
             tts.stop();
             tts.shutdown();
         }// end if
 
-        super.onDestroy();
-    }// end Destroy
-
+        super.onPause();
+    }// end onPause
 
 }// end class
 
