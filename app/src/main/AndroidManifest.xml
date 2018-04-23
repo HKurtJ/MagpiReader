@@ -23,8 +23,6 @@
         <activity android:name=".ReadActivity"
             android:label="Magpi Reader"/>
 
-        <activity android:name=".TextToSpeech"
-            android:label="Magpi Reader"/>
     </application>
 
 </manifest>
