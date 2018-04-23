@@ -24,22 +24,24 @@ public class ReadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
+        Log.i("TTS", "Start process");
 
-
-
-        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+        tts = new TextToSpeech(ReadActivity.this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
+                Log.i("TTS", "Start initalization i = " + i);
                 if(i == TextToSpeech.SUCCESS){
+                    Log.i("TTS", "Success, i = " + i);
                     int result = tts.setLanguage(Locale.US);
 
                     if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
-                        Log.i("TTS", "Bad Data");
+                        Log.i("TTS", "Language not supported");
                     }else{
-                        read_button.setEnabled(true);
+                        ToSpeech();
                     }// end if
                 }else{
                     Log.i("TTS","Fail");
+
                 }// end if
 
             }// end onInit
@@ -48,18 +50,30 @@ public class ReadActivity extends AppCompatActivity {
         findViewById(R.id.read_button).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String to_read = editText.getText().toString().trim();
-
-                tts.speak(to_read, TextToSpeech.QUEUE_FLUSH, null);
+                ToSpeech();
             }// end onClick
         });// end Listener
 
 
     }// end onCreate
 
+    private void ToSpeech(){
+        Log.i("TTS", "Talking");
+        String to_read = editText.getText().toString().trim();
+        if(to_read.equals(null) || to_read.equals("")){
+            Log.i("TTS", "No Text");
+            //to_read = "No Text Given";
+            //tts.speak(to_read, TextToSpeech.QUEUE_FLUSH, null);
+        }else{
+            Log.i("TTS", "Has Text");
+            tts.speak(to_read, TextToSpeech.QUEUE_FLUSH, null);
+        }// end if
+    }// end ToSpeech
+
     @Override
     protected void onDestroy() {
         if(tts != null){
+            Log.i("TTS", "Destroing");
             tts.stop();
             tts.shutdown();
         }// end if
