@@ -38,10 +38,10 @@ public class ReadActivity extends AppCompatActivity {
                     }else{
                         read_button.setEnabled(true);
                     }// end if
-
                 }else{
                     Log.i("TTS","Fail");
                 }// end if
+
             }// end onInit
         });// end Listener
 
@@ -55,7 +55,7 @@ public class ReadActivity extends AppCompatActivity {
         });// end Listener
 
 
-    }// end onCreat
+    }// end onCreate
 
     @Override
     protected void onDestroy() {

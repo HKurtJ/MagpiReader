@@ -12,7 +12,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // ************** need to update Manifests *****************
 
         findViewById(R.id.start_button).setOnClickListener(new View.OnClickListener() {
             @Override
