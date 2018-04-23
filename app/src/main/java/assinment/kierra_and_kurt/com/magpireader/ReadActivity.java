@@ -45,8 +45,7 @@ public class ReadActivity extends AppCompatActivity {
             }// end onInit
         });// end Listener
 
-        read_button = findViewById(R.id.read_button);
-        read_button.setOnClickListener(new View.OnClickListener(){
+        findViewById(R.id.read_button).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 String to_read = editText.getText().toString().trim();
