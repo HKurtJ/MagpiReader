@@ -5,8 +5,8 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -24,34 +24,42 @@ public class ReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read);
         Log.i("TTS", "Start process");
 
+        // initialize TTS object
         tts = new TextToSpeech(ReadActivity.this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
-                Log.i("TTS", "Start initalization i = " + i);
+                Log.i("TTS", "Start initialization i = " + i);
                 if(i == TextToSpeech.SUCCESS){
                     Log.i("TTS", "Success");
                     int result = tts.setLanguage(Locale.US);
 
                     if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
                         Log.i("TTS", "Language not supported");
+
+                        Toast.makeText(ReadActivity.this,
+                                "Language not supported",
+                                Toast.LENGTH_LONG).show();
                     }else{
                         ToSpeech();
                     }// end if
                 }else{
                     Log.i("TTS","Fail");
 
+                    Toast.makeText(ReadActivity.this,
+                            "Failed to Load Data",
+                            Toast.LENGTH_LONG).show();
                 }// end if
 
             }// end onInit
         });// end Listener
 
+        // click the Read Button
         findViewById(R.id.read_button).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 ToSpeech();
             }// end onClick
         });// end Listener
-
 
     }// end onCreate
 
@@ -62,8 +70,10 @@ public class ReadActivity extends AppCompatActivity {
 
         if(to_read.equals(null) || to_read.equals("")){
             Log.i("TTS", "No Text");
-            //to_read = "No Text Given";
-            //tts.speak(to_read, TextToSpeech.QUEUE_FLUSH, null);
+
+            Toast.makeText(ReadActivity.this,
+                    "No Text Available",
+                    Toast.LENGTH_LONG).show();
         }else{
             Log.i("TTS", "Has Text");
             tts.speak(to_read, TextToSpeech.QUEUE_FLUSH, null);
