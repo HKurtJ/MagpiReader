@@ -17,8 +17,6 @@ import java.util.Locale;
 public class ReadActivity extends AppCompatActivity {
 
     private TextToSpeech tts;
-    private EditText editText;
-    private Button read_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +57,7 @@ public class ReadActivity extends AppCompatActivity {
 
     private void ToSpeech(){
         Log.i("TTS", "Talking");
+        EditText editText = findViewById(R.id.read_this_text);
         String to_read = editText.getText().toString().trim();
         if(to_read.equals(null) || to_read.equals("")){
             Log.i("TTS", "No Text");
