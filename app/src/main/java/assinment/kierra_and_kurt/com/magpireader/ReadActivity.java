@@ -14,9 +14,12 @@ import java.util.Locale;
  * Created by hkurt on 4/23/2018.
  */
 
+
+
 public class ReadActivity extends AppCompatActivity {
 
     private TextToSpeech tts;
+    private int thing = 5; // ignore this
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,7 @@ public class ReadActivity extends AppCompatActivity {
         EditText editText = findViewById(R.id.read_this_text);
         String to_read = editText.getText().toString().trim();
 
-        if(to_read.equals(null) || to_read.equals("")){
+        if(to_read.equals("")){
             Log.i("TTS", "No Text");
 
             Toast.makeText(ReadActivity.this,
