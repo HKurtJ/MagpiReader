@@ -1,11 +1,19 @@
 package assinment.kierra_and_kurt.com.magpireader;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -20,6 +28,8 @@ public class ReadActivity extends AppCompatActivity {
 
     private TextToSpeech tts;
     private int thing = 5; // ignore this
+    int imageRequest = 1;
+    int RESULT_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +106,76 @@ public class ReadActivity extends AppCompatActivity {
         super.onPause();
     }// end onPause
 
+    /*====MENU=====================================*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_camera) {
+            return true;
+
+        }else if (id == R.id.action_gallery) {
+            getImage();
+
+        }else if (id == R.id.action_about) {
+            Log.i("MAIN", "Go to About");
+            Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    /*====END OF MENU======================================================================*/
+
+    /*==GET IMAGE FROM GALLERY====================================================================*/
+    private void getImage(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, imageRequest);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        try {
+
+            if (requestCode == imageRequest && resultCode == RESULT_CODE && null != data) {
+
+                Uri select = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+
+                //cursor
+                Cursor cursor = getContentResolver().query(select, filePath, null, null, null);
+                cursor.moveToFirst();
+
+                int colIndex = cursor.getColumnIndex(filePath[0]);
+                String imgString = cursor.getString(colIndex);
+                cursor.close();
+                ImageView imageView = findViewById(R.id.picture_imageView);
+
+                imageView.setImageBitmap(BitmapFactory.decodeFile(imgString));
+
+            } else {
+                Toast.makeText(getApplicationContext(), "An image was not picked",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
 }// end class
 
 
