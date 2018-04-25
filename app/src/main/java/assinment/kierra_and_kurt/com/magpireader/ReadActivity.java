@@ -1,12 +1,16 @@
 package assinment.kierra_and_kurt.com.magpireader;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -36,6 +40,11 @@ public class ReadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
         Log.i("TTS", "Start process");
+
+        /*PERMISSION TO TAKE IMAGE --->>>> ignore for now*/
+       /* if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }*/
 
         // initialize TTS object
         tts = new TextToSpeech(ReadActivity.this, new TextToSpeech.OnInitListener() {
@@ -138,7 +147,8 @@ public class ReadActivity extends AppCompatActivity {
     }
     /*====END OF MENU======================================================================*/
 
-    /*==GET IMAGE FROM GALLERY====================================================================*/
+    /*==GET IMAGE FROM GALLERY====================================================================
+    * SPURCES: http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/*/
     private void getImage(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, imageRequest);
@@ -173,9 +183,9 @@ public class ReadActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
         }
-
-
     }
+
+
 }// end class
 
 
