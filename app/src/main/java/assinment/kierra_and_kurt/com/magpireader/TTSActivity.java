@@ -15,11 +15,11 @@ public class TTSActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_texttospeech);
+        //setContentView(R.layout.activity_texttospeech);
 
-        findViewById(R.id.text_editText);
-        findViewById(R.id.speak_button);
-        findViewById(R.id.stop_button);
+        //findViewById(R.id.text_editText);
+        //findViewById(R.id.speak_button);
+        //findViewById(R.id.stop_button);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
