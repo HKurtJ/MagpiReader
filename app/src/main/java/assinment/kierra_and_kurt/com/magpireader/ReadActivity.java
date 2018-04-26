@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +22,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -34,6 +40,9 @@ public class ReadActivity extends AppCompatActivity {
     private int thing = 5; // ignore this
     int imageRequest = 1;
     int RESULT_CODE = 1;
+    private static final int CAMERA_REQUEST = 1313;
+    int TAKE_PICTURE = 2;
+    int picRequest = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +141,7 @@ public class ReadActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_camera) {
-            return true;
+            takePicture();
 
         }else if (id == R.id.action_gallery) {
             getImage();
@@ -147,6 +156,29 @@ public class ReadActivity extends AppCompatActivity {
     }
     /*====END OF MENU======================================================================*/
 
+    /*===TAKE PICTURE=============================================================
+    * SOURCE: http://www.exceptionbound.com/programming-tut/android-tutorial/open-camera-take-save-picture-android-app-using-android-studio*/
+    private void takePicture(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+               startActivityForResult(intent, CAMERA_REQUEST);
+    }
+
+    /*private static File getMediaFile(){
+        File mediaStorDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "images");
+
+        if (!mediaStorDir.exists()){
+            if (!mediaStorDir.mkdirs()){
+                return null;
+            }
+        }
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return new File(mediaStorDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".jpg");
+
+    }*/
+
     /*==GET IMAGE FROM GALLERY====================================================================
     * SPURCES: http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/*/
     private void getImage(){
@@ -157,7 +189,8 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        ImageView imageView = findViewById(R.id.picture_imageView);
+        InputStream stream = null;
         try {
 
             if (requestCode == imageRequest && resultCode == RESULT_CODE && null != data) {
@@ -172,9 +205,12 @@ public class ReadActivity extends AppCompatActivity {
                 int colIndex = cursor.getColumnIndex(filePath[0]);
                 String imgString = cursor.getString(colIndex);
                 cursor.close();
-                ImageView imageView = findViewById(R.id.picture_imageView);
 
                 imageView.setImageBitmap(BitmapFactory.decodeFile(imgString));
+
+            }else if (requestCode == CAMERA_REQUEST){
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(bitmap);
 
             } else {
                 Toast.makeText(getApplicationContext(), "An image was not picked",
