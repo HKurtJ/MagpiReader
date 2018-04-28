@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Magpi Reader</string>
+    <string name="action_camera">Camera</string>
+    <string name="action_gallery">Gallery</string>
+    <string name="action_about">About</string>
 </resources>
