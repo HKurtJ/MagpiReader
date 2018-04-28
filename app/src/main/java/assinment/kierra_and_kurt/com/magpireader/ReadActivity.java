@@ -163,23 +163,7 @@ public class ReadActivity extends AppCompatActivity {
                startActivityForResult(intent, CAMERA_REQUEST);
     }
 
-    /*private static File getMediaFile(){
-        File mediaStorDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "images");
-
-        if (!mediaStorDir.exists()){
-            if (!mediaStorDir.mkdirs()){
-                return null;
-            }
-        }
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return new File(mediaStorDir.getPath() + File.separator +
-                "IMG_"+ timeStamp + ".jpg");
-
-    }*/
-
-    /*==GET IMAGE FROM GALLERY====================================================================
+        /*==GET IMAGE FROM GALLERY====================================================================
     * SPURCES: http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/*/
     private void getImage(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -190,10 +174,11 @@ public class ReadActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ImageView imageView = findViewById(R.id.picture_imageView);
-        InputStream stream = null;
+
         try {
 
-            if (requestCode == imageRequest && resultCode == RESULT_CODE && null != data) {
+            if (requestCode == imageRequest /*&& resultCode == RESULT_CODE && null != data*/) {
+
 
                 Uri select = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
@@ -205,6 +190,8 @@ public class ReadActivity extends AppCompatActivity {
                 int colIndex = cursor.getColumnIndex(filePath[0]);
                 String imgString = cursor.getString(colIndex);
                 cursor.close();
+
+                //makes imageview visible when you select image from gallery
 
                 imageView.setImageBitmap(BitmapFactory.decodeFile(imgString));
 
