@@ -43,6 +43,7 @@ public class ReadActivity extends AppCompatActivity {
     int RESULT_CODE = 1;
     private static final int CAMERA_REQUEST = 1313;
     Button b;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,25 @@ public class ReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read);
         Log.i("TTS", "Start process");
 
+        //imageView
+
+
        //READ TEXT FROM IMAGE BUTTON
         b = findViewById(R.id.readImage_button);
+        /*make button invisible until user clicks to get image from gallery*/
         b.setVisibility(b.INVISIBLE);
+        //read text from image that was picked from the gallery
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //suppose to extract text from image
+               // String text = OCRCapture.Builder(this).getTextFromUri(imageView);
+                /*EditText editText = findViewById(R.id.read_this_text);
+                * editText.setText(text + "");
+                * ToSpeech()*/
+
+            }
+        });
 
         // initialize TTS object
         tts = new TextToSpeech(ReadActivity.this, new TextToSpeech.OnInitListener() {
@@ -172,13 +189,14 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ImageView imageView = findViewById(R.id.picture_imageView);
 
+      ImageView imageView = findViewById(R.id.picture_imageView);
         try {
 
             /*TO GET IMAGE FROM GALLERY*/
             if (requestCode == imageRequest /*&& resultCode == RESULT_CODE && null != data*/) {
 
+                //makes reade image button visible
                 b.setVisibility(b.VISIBLE);
                 Uri select = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
