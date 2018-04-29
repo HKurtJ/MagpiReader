@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -41,8 +42,7 @@ public class ReadActivity extends AppCompatActivity {
     int imageRequest = 1;
     int RESULT_CODE = 1;
     private static final int CAMERA_REQUEST = 1313;
-    int TAKE_PICTURE = 2;
-    int picRequest = 2;
+    Button b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,9 @@ public class ReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read);
         Log.i("TTS", "Start process");
 
-        /*PERMISSION TO TAKE IMAGE --->>>> ignore for now*/
-       /* if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-        }*/
+       //READ TEXT FROM IMAGE BUTTON
+        b = findViewById(R.id.readImage_button);
+        b.setVisibility(b.INVISIBLE);
 
         // initialize TTS object
         tts = new TextToSpeech(ReadActivity.this, new TextToSpeech.OnInitListener() {
@@ -164,7 +163,7 @@ public class ReadActivity extends AppCompatActivity {
     }
 
         /*==GET IMAGE FROM GALLERY====================================================================
-    * SPURCES: http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/*/
+    * SOURCES: http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/*/
     private void getImage(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, imageRequest);
@@ -177,9 +176,10 @@ public class ReadActivity extends AppCompatActivity {
 
         try {
 
+            /*TO GET IMAGE FROM GALLERY*/
             if (requestCode == imageRequest /*&& resultCode == RESULT_CODE && null != data*/) {
 
-
+                b.setVisibility(b.VISIBLE);
                 Uri select = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
 
@@ -191,10 +191,9 @@ public class ReadActivity extends AppCompatActivity {
                 String imgString = cursor.getString(colIndex);
                 cursor.close();
 
-                //makes imageview visible when you select image from gallery
-
                 imageView.setImageBitmap(BitmapFactory.decodeFile(imgString));
 
+                /*TO GET CAMERA*/
             }else if (requestCode == CAMERA_REQUEST){
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 imageView.setImageBitmap(bitmap);
