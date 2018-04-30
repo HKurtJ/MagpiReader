@@ -105,7 +105,7 @@ public class ReadActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ToSpeech();
             }// end onClick
-        });// end Listener
+        });// end Listener 
 
         editText.setOnClickListener(new View.OnClickListener(){
             @Override
