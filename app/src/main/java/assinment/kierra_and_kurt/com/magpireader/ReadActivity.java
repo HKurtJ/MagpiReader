@@ -40,7 +40,7 @@ import java.util.Locale;
 public class ReadActivity extends AppCompatActivity {
 
     private TextToSpeech tts;
-    private EditText editText = findViewById(R.id.read_this_text);
+    EditText editText = findViewById(R.id.read_this_text);
     private int thing = 5; // ignore this
     int imageRequest = 1;
     int RESULT_CODE = 1;
@@ -105,9 +105,9 @@ public class ReadActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ToSpeech();
             }// end onClick
-        });// end Listener 
+        });// end Listener
 
-        editText.setOnClickListener(new View.OnClickListener(){
+       editText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 editText.setText("");
