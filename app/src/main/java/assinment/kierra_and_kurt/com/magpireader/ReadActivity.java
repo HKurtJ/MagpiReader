@@ -46,6 +46,7 @@ public class ReadActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1313;
     Button b;
     ImageView imageView;
+    String imgString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +65,7 @@ public class ReadActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //suppose to extract text from image
-               /*String text = OCRCapture.Builder(ReadActivity.this).getTextFromUri(imageView);
-                EditText editText = findViewById(R.id.read_this_text);
-                 editText.setText(text + "");
-                 ToSpeech();*/
-
+               readImage();
             }
         });
 
@@ -129,6 +125,16 @@ public class ReadActivity extends AppCompatActivity {
         }// end if
 
     }// end ToSpeech
+
+    public void readImage(){
+        ImageView iv = findViewById(R.id.picture_imageView);
+
+        //suppose to extract text from image
+        String text = OCRCapture.Builder(this).getTextFromImage(imgString);
+        EditText editText = findViewById(R.id.read_this_text);
+        editText.setText(text + "");
+        ToSpeech();
+    }
 
 
     @Override
@@ -208,7 +214,7 @@ public class ReadActivity extends AppCompatActivity {
                 cursor.moveToFirst();
 
                 int colIndex = cursor.getColumnIndex(filePath[0]);
-                String imgString = cursor.getString(colIndex);
+                imgString = cursor.getString(colIndex);
                 cursor.close();
 
                 imageView.setImageBitmap(BitmapFactory.decodeFile(imgString));
