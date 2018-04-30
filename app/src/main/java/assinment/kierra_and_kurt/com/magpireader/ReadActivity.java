@@ -40,7 +40,7 @@ import java.util.Locale;
 public class ReadActivity extends AppCompatActivity {
 
     private TextToSpeech tts;
-    EditText editText = findViewById(R.id.read_this_text);
+    EditText editText;
     private int thing = 5; // ignore this
     int imageRequest = 1;
     int RESULT_CODE = 1;
@@ -54,6 +54,7 @@ public class ReadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
         Log.i("TTS", "Start process");
+         editText = findViewById(R.id.read_this_text);
 
         imageView = findViewById(R.id.picture_imageView);
 
