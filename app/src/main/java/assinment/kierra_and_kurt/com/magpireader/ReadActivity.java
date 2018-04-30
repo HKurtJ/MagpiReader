@@ -107,6 +107,7 @@ public class ReadActivity extends AppCompatActivity {
         });// end Listener
 
     }// end onCreate
+    
 
     private void ToSpeech(){ // talks here
         Log.i("TTS", "Talking");
