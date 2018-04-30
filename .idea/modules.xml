@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MagpiReader.iml" filepath="$PROJECT_DIR$/MagpiReader.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ocrlibrary/ocrlibrary.iml" filepath="$PROJECT_DIR$/ocrlibrary/ocrlibrary.iml" />
     </modules>
   </component>
 </project>
