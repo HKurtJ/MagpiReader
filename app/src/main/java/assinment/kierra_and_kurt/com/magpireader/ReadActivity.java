@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.guna.ocrlibrary.OCRCapture;
+
 import java.io.File;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -44,6 +46,8 @@ public class ReadActivity extends AppCompatActivity {
     int RESULT_CODE = 1;
     private static final int CAMERA_REQUEST = 1313;
     Button b;
+    ImageView imageView;
+    String imgString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +55,20 @@ public class ReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read);
         Log.i("TTS", "Start process");
 
+        imageView = findViewById(R.id.picture_imageView);
+
+
        //READ TEXT FROM IMAGE BUTTON
         b = findViewById(R.id.readImage_button);
+        /*make button invisible until user clicks to get image from gallery*/
         b.setVisibility(b.INVISIBLE);
+        //read text from image that was picked from the gallery
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               readImage();
+            }
+        });
 
         // initialize TTS object
         tts = new TextToSpeech(ReadActivity.this, new TextToSpeech.OnInitListener() {
@@ -119,6 +134,16 @@ public class ReadActivity extends AppCompatActivity {
 
     }// end ToSpeech
 
+    public void readImage(){
+        ImageView iv = findViewById(R.id.picture_imageView);
+
+        //suppose to extract text from image
+        String text = OCRCapture.Builder(this).getTextFromImage(imgString);
+        EditText editText = findViewById(R.id.read_this_text);
+        editText.setText(text + "");
+        ToSpeech();
+    }
+
 
     @Override
     protected void onPause() { // stops talking once paused
@@ -180,13 +205,14 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ImageView imageView = findViewById(R.id.picture_imageView);
 
+      ImageView imageView = findViewById(R.id.picture_imageView);
         try {
 
             /*TO GET IMAGE FROM GALLERY*/
             if (requestCode == imageRequest /*&& resultCode == RESULT_CODE && null != data*/) {
 
+                //makes reade image button visible
                 b.setVisibility(b.VISIBLE);
                 Uri select = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
@@ -196,7 +222,7 @@ public class ReadActivity extends AppCompatActivity {
                 cursor.moveToFirst();
 
                 int colIndex = cursor.getColumnIndex(filePath[0]);
-                String imgString = cursor.getString(colIndex);
+                imgString = cursor.getString(colIndex);
                 cursor.close();
 
                 imageView.setImageBitmap(BitmapFactory.decodeFile(imgString));
