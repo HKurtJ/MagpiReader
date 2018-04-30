@@ -24,6 +24,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:id="@+id/picture_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/btn_star" />
+
+        <Button
+            android:id="@+id/readImage_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Read Image"
+            android:visibility="invisible" />
+
         <EditText
             android:id="@+id/read_this_text"
             android:layout_width="match_parent"
