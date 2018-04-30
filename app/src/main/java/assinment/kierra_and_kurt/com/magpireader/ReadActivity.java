@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.guna.ocrlibrary.OCRCapture;
+
 import java.io.File;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -51,7 +53,7 @@ public class ReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read);
         Log.i("TTS", "Start process");
 
-        //imageView
+        imageView = findViewById(R.id.picture_imageView);
 
 
        //READ TEXT FROM IMAGE BUTTON
@@ -63,10 +65,10 @@ public class ReadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //suppose to extract text from image
-               // String text = OCRCapture.Builder(this).getTextFromUri(imageView);
-                /*EditText editText = findViewById(R.id.read_this_text);
-                * editText.setText(text + "");
-                * ToSpeech()*/
+               /*String text = OCRCapture.Builder(ReadActivity.this).getTextFromUri(imageView);
+                EditText editText = findViewById(R.id.read_this_text);
+                 editText.setText(text + "");
+                 ToSpeech();*/
 
             }
         });
